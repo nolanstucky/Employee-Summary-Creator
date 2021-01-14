@@ -21,7 +21,6 @@ function init(){
             choices:["Create employee card.", "Export cards to HTML file.", "Quit"]
         }
     ]).then(({choice})=>{
-        console.log(employees)
         switch (choice) {
             case "Create employee card.":
                 createCard();
@@ -32,7 +31,7 @@ function init(){
                     console.log("Please create at least one employee card.")
                     init();
                 } else {
-                    render(employees);
+                    createHTML();
                 }
                 break;
             
@@ -185,6 +184,16 @@ function createIntern(){
         const newIntern = new Intern(answers.name, answers.id, answers.email, answers.school)
         employees.push(newIntern);
         init();
+    })
+}
+
+function createHTML(){
+    fs.writeFile("./output/team.html", render(employees), (err) => {
+        if(err){
+            throw err
+        } else {
+            console.log("Your HTML page is created!")
+        }
     })
 }
 // Write code to use inquirer to gather information about the development team members,
